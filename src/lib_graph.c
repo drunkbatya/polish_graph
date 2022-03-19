@@ -64,32 +64,16 @@ int extract_num(char *str, int *num) {
         // If next is num too
         if (*str >= '0' && *str <= '9') {
             *num = *num * 10 + (int)(*str - '0');
+            str++;
+            shift++;
         }
-        str++;
-        shift++;
         if (*str < '0' || *str > '9') {
             break;
         }
     }
     printf("\nnum is %d", *num);
+    *num = 0;
     return shift;
-
-  /*  int shift = 0;
-
-    while (*str != '\0') {
-        // If next is num too
-        if (*str >= '0' && *str <= '9') {
-            *num = *num * 10 + (int)(*str - '0');
-        } else {
-            break;
-        }
-        str++;
-        shift = shift + 1;
-    }
-    printf("UU suka %c", *str);
-    printf("\nnum is %d", *num);
-    return shift;
-*/
 }
 
 int extract_op(char *str, char *op, int *shift) {
@@ -150,8 +134,16 @@ int parse(char *input_str, char *polish) {
         // add to stack ( and -
     }
     while (*input_str != '\0') {
+        printf("\n now num is %c", *input_str);
         // add X ------------------- TO DO
-        if (*input_str >= '0' && *input_str <= '9') {
+        if (*input_str == 'x') {
+            shift = 1;
+            add_to_polish(polish, input_str, shift);
+            polish++;
+            *polish = ' ';
+            polish++;
+            input_str++;
+        } else if (*input_str >= '0' && *input_str <= '9') {
             shift = extract_num(input_str, &num);
             add_to_polish(polish, input_str, shift);
             polish = polish + shift + 1;  // + 1 - for the added space
@@ -163,7 +155,6 @@ int parse(char *input_str, char *polish) {
             if (extract_op(input_str, &op, &shift) == 0) {
                 return 0;
             }
-            input_str = input_str + shift;
             add_to_polish(polish, input_str, shift);
             polish = polish + shift + 1;
             if (*(input_str + shift) == '\0') {
