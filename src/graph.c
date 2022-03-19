@@ -22,6 +22,7 @@ int main(void) {
         printf("n/a");
         if (str != NULL)
             free(str);
+        return (1);
     }
 
     printf("DBG: %s\n", str);

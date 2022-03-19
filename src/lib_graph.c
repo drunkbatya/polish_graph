@@ -35,13 +35,12 @@ void feel_matrix(int **matrix, int size_x, int size_y) {
     int count_y;
 
     count_y = 0;
-    size_x = 0;
     while (count_y < size_y) {
         int x;
 
         // x is y, y is x, cake is a lie, sorry for this..
         x = convert_y_to_real(dummy(convert_x_to_unreal(count_y)));
-        if (x < SCREEN_HEIGHT && x >= 0)
+        if (x < size_x && x >= 0)
             matrix[x][count_y] = 1;
         count_y++;
     }
