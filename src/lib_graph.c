@@ -51,6 +51,48 @@ int extract_num(char *str, int *num) {
     return shift;
 }
 
+int extract_op(char *str, char *op, int *shift) {
+    *shift = 2;
+    if (!strncmp(str, "ln", *shift)) {
+        *op = 'l';
+        return (1);
+    }
+    *shift = 3;
+    if (!strncmp(str, "sin", *shift)) {
+        *op = 's';
+        return (1);
+    }
+    if (!strncmp(str, "cos", *shift)) {
+        *op = 'c';
+        return (1);
+    }
+    if (!strncmp(str, "tan", *shift)) {
+        *op = 't';
+        return (1);
+    }
+    if (!strncmp(str, "ctg", *shift)) {
+        *op = 'g';
+        return (1);
+    }
+    *shift = 4;
+    if (!strncmp(str, "sqrt", *shift)) {
+        *op = 'q';
+        return (1);
+    }
+    *shift = 1;
+    if (*str == '-') {
+        if (*(str - 1) == '(') {
+            *op = '~';
+            return (1);
+        }
+    }
+    if (strchr("+-/*()", *str)) {
+        *op = *str;
+        return (1);
+    }
+    return (0);
+}
+
 int parse(char *input_str, char *polish) {
     int shift = 0;
  //   struct stack *op_stack = NULL;
