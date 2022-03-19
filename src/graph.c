@@ -1,6 +1,9 @@
+// Copyright [2022] <griselle, laynadre>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib_io.h"
+#include "stack.h"
 
 #define SCREEN_HEIGHT 25
 #define SCREEN_WIDTH 80
@@ -16,6 +19,7 @@ int main(void) {
             free(str);
         return (1);
     }
+    printf("DBG: %s\n", str);
     free(str);
     return (0);
 }
