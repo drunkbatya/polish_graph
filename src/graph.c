@@ -28,9 +28,11 @@ int main(void) {
         printf("n/a");
         if (str != NULL)
             free(str);
+        return (1);
     }
 
     printf("DBG: %s\n", str);
+    feel_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
     print_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
 
     free(matrix);

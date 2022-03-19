@@ -2,8 +2,10 @@
 
 #include "lib_stack.h"
 #include "lib_graph.h"
+#include "graph.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 int **create_matrix(int size_x, int size_y) {
     int **arr;
@@ -67,12 +69,29 @@ int parse(char *input_str) {
     return 1;
 }
 
+float dummy(float x) {
+    return (pow(x, 2));
+}
 
+float convert_x_to_unreal(int x) {
+    return (x * ((4 * M_PI) / (SCREEN_WIDTH - 1)));
+}
 
+int convert_y_to_real(float y) {
+    return (y * ((SCREEN_HEIGHT - 1) / 2) / 1);
+}
 
+void feel_matrix(int **matrix, int size_x, int size_y) {
+    int count_y;
 
+    count_y = 0;
+    while (count_y < size_y) {
+        int x;
 
-
-
-
-
+        // x is y, y is x, cake is a lie, sorry for this..
+        x = convert_y_to_real(dummy(convert_x_to_unreal(count_y)));
+        if (x < size_x && x >= 0)
+            matrix[x][count_y] = 1;
+        count_y++;
+    }
+}
