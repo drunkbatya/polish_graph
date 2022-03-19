@@ -1,14 +1,15 @@
+// Copyright [2022] <griselle>
+
 #ifndef SRC_STACK_H_
 #define SRC_STACK_H_
 
 struct stack {
-    char item;
-    struct stack *prev;
+    int num;
+    struct stack *next;
 };
 
-struct stack *init(char item);
-struct stack *push(struct stack *stack, char item);
-struct stack *pop(struct stack *stack);
-void destroy(struct stack* stack);
-
+struct stack *init(int num);
+void push(struct stack **last, int num);
+int pop(struct stack **last);
+void destroy(struct stack **last);
 #endif  // SRC_STACK_H_

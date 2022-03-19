@@ -1,14 +1,9 @@
-// Copyright [2022] <griselle, laynadre>
+// Copyright [2022] <griselle, laynadre, ronnyfre>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib_io.h"
 #include "stack.h"
-
-#define SCREEN_HEIGHT 25
-#define SCREEN_WIDTH 80
-
-#define GRAPH_SYM "$"
 
 int main(void) {
     char *str;

@@ -1,33 +1,58 @@
+// Copyright [2022] <griselle>
+
 #include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-struct stack *init(char item) {
-    struct stack *new_stack = (struct stack *)malloc(sizeof(struct stack));
-    new_stack->item = item;
-    new_stack->prev = NULL;
-    return new_stack;
+struct stack *init(int num) {
+    struct stack *ret;
+
+    ret = (struct stack *)malloc(sizeof(struct stack));
+    if (ret == NULL) {
+        printf("stack.c: Memmory allocation error!.. ");
+        return (ret);
+    }
+    ret->next = NULL;
+    ret->num = num;
+    return (ret);
 }
 
-struct stack *push(struct stack *stack, char item) {
-    struct stack *new_stack = (struct stack*)malloc(sizeof(struct stack));
-    new_stack->item = item;
-    new_stack->prev = stack;
-    return new_stack;
+void push(struct stack **last, int num) {
+    struct stack *ret;
+
+    ret = (struct stack *)malloc(sizeof(struct stack));
+    ret->next = *last;
+    ret->num = num;
+    *last = ret;
 }
 
-struct stack *pop(struct stack *stack) {
-    struct stack *temp = stack->prev;
-    return temp;
+int pop(struct stack **last) {
+    struct stack *ptr;
+    int num;
+
+    if (*last == NULL) {
+        printf("stack.c: Stack UNDERflow error!.. ");
+        return (-1);
+    }
+    ptr = (*last)->next;
+    num = (*last)->num;
+    free(*last);
+    *last = ptr;
+    return (num);
 }
 
-void destroy(struct stack* stack) {
-    struct stack *temp = stack;
-    while (stack->prev != NULL) {
-        temp = stack;
-        stack = stack->prev;
-        free(temp);
-    }   
-    free(stack);
-}
+void destroy(struct stack **last) {
+    struct stack *ret;
+    struct stack *temp;
 
+    ret = *last;
+    while (ret) {
+        if (ret->next == NULL) {
+            *last = NULL;
+            return (free(ret));
+        }
+        temp = ret->next;
+        free(ret);
+        ret = temp;
+    }
+}

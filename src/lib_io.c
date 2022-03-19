@@ -1,4 +1,4 @@
-// Copyright [2022] <griselle, laynadre>
+// Copyright [2022] <griselle, laynadre, ronnyfre>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,5 +35,20 @@ int input(char **ptr) {
         if (*ptr == NULL)
             return (0);
         size++;
+    }
+}
+
+void print_matrix(int **arr, int x, int y) {
+    for (int count_x = 0; count_x < x; count_x++) {
+        for (int count_y = 0; count_y < y; count_y++) {
+            if (arr[count_x][count_y] == FRAME)
+                printf("%c", FRAME_SYM);
+            else if (arr[count_x][count_y] == LIFE)
+                printf(LIFE_COLOR"%c"NO_COLOR, LIFE_SYM);
+            else
+                printf(" ");
+            if (count_y == y - 1)
+                printf("\n");
+        }
     }
 }
