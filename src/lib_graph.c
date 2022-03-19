@@ -27,12 +27,14 @@ void add_to_polish(char *polish, char *input_str, int shift) {
         input_str++;
         shift--;
     }
+    *polish = '0';
 }
 
-void extract_num(char *str, int *num, int *shift) {
+int extract_num(char *str, int *num) {
+    int shift;
     *num = (int)(*str - '0');
     str++;
-    *shift = 1;
+    shift = 1;
 
     while (*str != '\0') {
         // If next is num too
@@ -40,37 +42,48 @@ void extract_num(char *str, int *num, int *shift) {
             *num = *num * 10 + (int)(*str - '0');
         }
         str++;
-        *shift++;
-        if (*str >= '0' && *str <= '9') {
+        shift++;
+        if (*str < '0' || *str > '9') {
             break;
         }
     }
     printf("\nnum is %d", *num);
+    return shift;
 }
 
 int parse(char *input_str, char *polish) {
     int shift = 0;
-    struct char_stack *op_stack = NULL;
+ //   struct stack *op_stack = NULL;
+    char *op = NULL;
     int num = 0;
-    if
+
+    // Check for unary minus at the beginning
+    if (*input_str == '-') {
+        *polish = '0';
+        polish++;
+        *polish = ' ';
+        polish++;
+        // add to stack ( and -
+    }
     while (*input_str != '\0') {
         if (*input_str >= '0' && *input_str <= '9') {
-            extract_num(input_str, &num, &shift);
+            shift = extract_num(input_str, &num);
             add_to_polish(polish, input_str, shift);
-            polish = polish + shift;
+            polish = polish + shift + 1;  // + 1 - for the added space
             input_str = input_str + shift;
         } else {
-            // 1. получаем следующий символ из входной строки
-            // 2. проверяем, что это:
-            // +, -, 
-            shift = extract_op(char *str, char *op);
-            if (op_stack == NULL) {
-                op_stack = char_init(op);
-            } else {
-                char_push(&char_stack, op);
+            if (extract_op(input_str, *op, &shift) == 0) {
+                return 0;
             }
+            polish = polish + shift + 1;
             input_str = input_str + shift;
-            polish++;
+            // check what to do
+            //  shift = extract_op(char *str, char *op);
+         //   if (op_stack == NULL) {
+          //      op_stack = init(op);
+         //   } else {
+          //      push(&char_stack, op);
+         //   }
         }
     }
     return 1;
