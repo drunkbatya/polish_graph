@@ -20,7 +20,8 @@ int **create_matrix(int size_x, int size_y) {
 }
 
 float dummy(float x) {
-    return (pow(x, 2));
+    // return (pow(x, 2));
+    return (sin(cos(2 * x)));
 }
 
 float convert_x_to_unreal(int x) {
@@ -28,7 +29,7 @@ float convert_x_to_unreal(int x) {
 }
 
 int convert_y_to_real(float y) {
-    return (y * ((SCREEN_HEIGHT - 1) / 2) / 1);
+    return (round(y * ((SCREEN_HEIGHT - 1) / 2) / 1) + (SCREEN_HEIGHT / 2));
 }
 
 void feel_matrix(int **matrix, int size_x, int size_y) {
