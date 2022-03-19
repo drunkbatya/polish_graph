@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib_io.h"
-#include "stack.h"
+#include "lib_stack.h"
+#include "lib_graph.h"
 #include "graph.h"
 
 int main(void) {

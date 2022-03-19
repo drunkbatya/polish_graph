@@ -1,6 +1,6 @@
 // Copyright [2022] <griselle>
 
-#include "stack.h"
+#include "lib_stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 

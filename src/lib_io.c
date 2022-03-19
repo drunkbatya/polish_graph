@@ -40,14 +40,22 @@ int input(char **ptr) {
 }
 
 void print_matrix(int **arr, int x, int y) {
-    for (int count_x = 0; count_x < x; count_x++) {
-        for (int count_y = 0; count_y < y; count_y++) {
-            if (arr[count_x][count_y] == 0)
-                printf("%c", EMPTY_SYM);
+    int count_x;
+
+    count_x = 0;
+    while (count_x < x) {
+        int count_y;
+
+        count_y = 0;
+        while (count_y < y) {
+            if (arr[count_x][count_y])
+                printf("%c", GRAPH_SYM);
             else
-                printf("%c",GRAPH_SYM);
+                printf("%c", EMPTY_SYM);
             if (count_y == y - 1)
                 printf("\n");
+            count_y++;
         }
+        count_x++;
     }
 }
