@@ -17,6 +17,12 @@ int main(void) {
             free(str);
         return (1);
     }
+
+    if (parse(str) == 0) {
+        printf("ERROR FORMULA");
+        return 0;
+    }
+
     matrix = create_matrix(SCREEN_HEIGHT, SCREEN_WIDTH);
     if (matrix == NULL) {
         printf("n/a");
