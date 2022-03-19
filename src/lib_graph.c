@@ -120,7 +120,7 @@ int extract_op(char *str, char *op, int *shift) {
 
 int parse(char *input_str, char *polish) {
     int shift = 0;
-    //  struct stack *op_stack = NULL;
+    struct stack *op_stack = NULL;
     char op;
     int num = 0;
 
@@ -134,7 +134,7 @@ int parse(char *input_str, char *polish) {
         // add to stack ( and -
     }
     while (*input_str != '\0') {
-        printf("\n now num is %c", *input_str);
+        printf("\n now symb is %c", *input_str);
         // add X ------------------- TO DO
         if (*input_str == 'x') {
             shift = 1;
@@ -148,7 +148,7 @@ int parse(char *input_str, char *polish) {
             add_to_polish(polish, input_str, shift);
             polish = polish + shift + 1;  // + 1 - for the added space
             if (*(input_str + shift) == '\0') {
-                return 1;
+                break;
             }
             input_str = input_str + shift;
         } else {
@@ -157,19 +157,24 @@ int parse(char *input_str, char *polish) {
             }
             add_to_polish(polish, input_str, shift);
             polish = polish + shift + 1;
+
+            if (op_stack == NULL) {
+                op_stack = init(op);
+            } else {
+                push(&op_stack, op);
+            }
+
             if (*(input_str + shift) == '\0') {
-                return 1;
+                break;
             }
             input_str = input_str + shift;
             // check what to do
 
-         //   if (op_stack == NULL) {
-          //      op_stack = init(op);
-         //   } else {
-          //      push(&char_stack, op);
-         //   }
         }
     }
+    printf("\n stack: ");
+    display_stack(op_stack);
+    destroy(&op_stack);  // TODO(griselle): destroy with every return
     return 1;
 }
 

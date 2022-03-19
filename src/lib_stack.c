@@ -61,9 +61,8 @@ void display_stack(struct stack *stack) {
     struct stack *temp;
     temp = stack;
     while (temp->next != NULL) {
-        printf("%d", temp->sym);
+        printf("%c", temp->sym);
         temp = temp->next;
     }
-    printf("%d", temp->sym);
+    printf("%c", temp->sym);
 }
-
