@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib_io.h"
+#include "stack.h"
 
 #define SCREEN_HEIGHT 25
 #define SCREEN_WIDTH 80
