@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 int **create_matrix(int size_x, int size_y) {
     int **arr;
@@ -21,20 +22,43 @@ int **create_matrix(int size_x, int size_y) {
 }
 
 void add_to_polish(char *polish, char *input_str, int shift) {
-    while (shift != 0) {
+    for (int i = 0; i < shift; i++) {
         *polish = *input_str;
         polish++;
         input_str++;
-        shift--;
     }
-    *polish = '0';
+    *polish = ' ';
 }
 
+int priority(char op) {
+    if (op == '+' || op == '-') {
+        return 0;
+    }
+    if (op == '*' || op == '/') {
+        return 1;
+    }
+    if (op == 's' || op == 'c'
+        || op == 't' || op == 'g' || op == 'l') {
+        return 2;
+    }
+    if (op == 'q' || op == '^') {
+        return 3;
+    }
+    if (op == '(' || op == ')') {
+        return 4;
+    }
+    return 0;
+}
+
+/*
+void add_to_stack(char op, char *polish, struct stack *root) {
+   if (priority(op) > 1)
+       printf("%c", *polish);
+}
+*/
+
 int extract_num(char *str, int *num) {
-    int shift;
-    *num = (int)(*str - '0');
-    str++;
-    shift = 1;
+    int shift = 0;
 
     while (*str != '\0') {
         // If next is num too
@@ -49,6 +73,23 @@ int extract_num(char *str, int *num) {
     }
     printf("\nnum is %d", *num);
     return shift;
+
+  /*  int shift = 0;
+
+    while (*str != '\0') {
+        // If next is num too
+        if (*str >= '0' && *str <= '9') {
+            *num = *num * 10 + (int)(*str - '0');
+        } else {
+            break;
+        }
+        str++;
+        shift = shift + 1;
+    }
+    printf("UU suka %c", *str);
+    printf("\nnum is %d", *num);
+    return shift;
+*/
 }
 
 int extract_op(char *str, char *op, int *shift) {
@@ -95,8 +136,8 @@ int extract_op(char *str, char *op, int *shift) {
 
 int parse(char *input_str, char *polish) {
     int shift = 0;
- //   struct stack *op_stack = NULL;
-    char *op = NULL;
+    //  struct stack *op_stack = NULL;
+    char op;
     int num = 0;
 
     // Check for unary minus at the beginning
@@ -105,22 +146,32 @@ int parse(char *input_str, char *polish) {
         polish++;
         *polish = ' ';
         polish++;
+        input_str++;
         // add to stack ( and -
     }
     while (*input_str != '\0') {
+        // add X ------------------- TO DO
         if (*input_str >= '0' && *input_str <= '9') {
             shift = extract_num(input_str, &num);
             add_to_polish(polish, input_str, shift);
             polish = polish + shift + 1;  // + 1 - for the added space
+            if (*(input_str + shift) == '\0') {
+                return 1;
+            }
             input_str = input_str + shift;
         } else {
-            if (extract_op(input_str, *op, &shift) == 0) {
+            if (extract_op(input_str, &op, &shift) == 0) {
                 return 0;
             }
+            input_str = input_str + shift;
+            add_to_polish(polish, input_str, shift);
             polish = polish + shift + 1;
+            if (*(input_str + shift) == '\0') {
+                return 1;
+            }
             input_str = input_str + shift;
             // check what to do
-            //  shift = extract_op(char *str, char *op);
+
          //   if (op_stack == NULL) {
           //      op_stack = init(op);
          //   } else {

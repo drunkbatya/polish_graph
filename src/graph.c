@@ -10,6 +10,7 @@
 int main(void) {
     char *str;
     int **matrix;
+    char *polish = calloc(100, sizeof(char));
 
     if (!input(&str)) {
         printf("n/a");
@@ -19,13 +20,13 @@ int main(void) {
     }
 
     // String for the output sequence
-    char *polish = calloc(100, sizeof(char));
 
     if (parse(str, polish) == 0) {
         printf("ERROR FORMULA");
         return 0;
     }
 
+    printf("\nOUPUT %s\n", polish);
     matrix = create_matrix(SCREEN_HEIGHT, SCREEN_WIDTH);
     if (matrix == NULL) {
         printf("n/a");
