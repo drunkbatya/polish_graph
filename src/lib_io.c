@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lib_io.h"
+#include "graph.h"
 
 //  function recives pointer address!
 //  And requres memmory cleanup after return.
@@ -41,12 +42,10 @@ int input(char **ptr) {
 void print_matrix(int **arr, int x, int y) {
     for (int count_x = 0; count_x < x; count_x++) {
         for (int count_y = 0; count_y < y; count_y++) {
-            if (arr[count_x][count_y] == FRAME)
-                printf("%c", FRAME_SYM);
-            else if (arr[count_x][count_y] == LIFE)
-                printf(LIFE_COLOR"%c"NO_COLOR, LIFE_SYM);
+            if (arr[count_x][count_y] == 0)
+                printf("%c", EMPTY_SYM);
             else
-                printf(" ");
+                printf("%c",GRAPH_SYM);
             if (count_y == y - 1)
                 printf("\n");
         }

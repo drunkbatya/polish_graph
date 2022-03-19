@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "lib_io.h"
 #include "stack.h"
+#include "graph.h"
 
 int main(void) {
     char *str;
