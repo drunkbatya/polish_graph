@@ -3,17 +3,13 @@
 #ifndef SRC_LIB_STACK_H_
 #define SRC_LIB_STACK_H_
 
-struct char_stack {
+struct stack {
     char sym;
-    struct char_stack *next;
+    struct stack *next;
 };
 
-struct int_stack *int_init(int num);
-struct char_stack *char_init(char sym);
-void int_push(struct int_stack **last, int num);
-void char_push(struct char_stack **last, char sym);
-int int_pop(struct int_stack **last);
-char char_pop(struct char_stack **last);
-void int_destroy(struct int_stack **last);
-void char_destroy(struct char_stack **last);
+struct stack *init(char sym);
+void push(struct stack **last, char sym);
+char pop(struct stack **last);
+void destroy(struct stack **last);
 #endif  // SRC_LIB_STACK_H_
