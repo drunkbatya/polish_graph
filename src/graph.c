@@ -25,6 +25,7 @@ int main(void) {
     }
 
     printf("DBG: %s\n", str);
+    feel_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
     print_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
 
     free(matrix);

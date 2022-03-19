@@ -4,4 +4,5 @@
 #define SRC_LIB_GRAPH_H_
 
 int **create_matrix(int size_x, int size_y);
+void feel_matrix(int **matrix, int size_x, int size_y);
 #endif  // SRC_LIB_GRAPH_H_
