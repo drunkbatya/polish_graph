@@ -1,17 +1,15 @@
-// Copyright [2022] <griselle, laynadre>
+// Copyright [2022] <griselle, laynadre, ronnyfre>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib_io.h"
-#include "stack.h"
-
-#define SCREEN_HEIGHT 25
-#define SCREEN_WIDTH 80
-
-#define GRAPH_SYM "$"
+#include "lib_stack.h"
+#include "lib_graph.h"
+#include "graph.h"
 
 int main(void) {
     char *str;
+    int **matrix;
 
     if (!input(&str)) {
         printf("n/a");
@@ -19,7 +17,19 @@ int main(void) {
             free(str);
         return (1);
     }
+    matrix = create_matrix(SCREEN_HEIGHT, SCREEN_WIDTH);
+    if (matrix == NULL) {
+        printf("n/a");
+        if (str != NULL)
+            free(str);
+        return (1);
+    }
+
     printf("DBG: %s\n", str);
+    feel_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
+    print_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
+
+    free(matrix);
     free(str);
     return (0);
 }
