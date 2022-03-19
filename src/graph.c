@@ -18,7 +18,10 @@ int main(void) {
         return (1);
     }
 
-    if (parse(str) == 0) {
+    // String for the output sequence
+    char *polish = calloc(100, sizeof(char));
+
+    if (parse(str, polish) == 0) {
         printf("ERROR FORMULA");
         return 0;
     }
@@ -35,6 +38,7 @@ int main(void) {
     feel_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
     print_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
 
+    free(polish);
     free(matrix);
     free(str);
     return (0);

@@ -3,11 +3,6 @@
 #ifndef SRC_LIB_STACK_H_
 #define SRC_LIB_STACK_H_
 
-struct int_stack {
-    int num;
-    struct int_stack *next;
-};
-
 struct char_stack {
     char sym;
     struct char_stack *next;

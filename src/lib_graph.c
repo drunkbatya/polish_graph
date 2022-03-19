@@ -20,11 +20,19 @@ int **create_matrix(int size_x, int size_y) {
     return (arr);
 }
 
-int extract_num(char *str, int *num) {
-    int shift = 0;
+void add_to_polish(char *polish, char *input_str, int shift) {
+    while (shift != 0) {
+        *polish = *input_str;
+        polish++;
+        input_str++;
+        shift--;
+    }
+}
+
+void extract_num(char *str, int *num, int *shift) {
     *num = (int)(*str - '0');
     str++;
-    shift++;
+    *shift = 1;
 
     while (*str != '\0') {
         // If next is num too
@@ -32,31 +40,29 @@ int extract_num(char *str, int *num) {
             *num = *num * 10 + (int)(*str - '0');
         }
         str++;
-        shift++;
+        *shift++;
         if (*str >= '0' && *str <= '9') {
             break;
         }
     }
     printf("\nnum is %d", *num);
-    return shift;
 }
 
-int parse(char *input_str) {
+int parse(char *input_str, char *polish) {
     int shift = 0;
-    struct int_stack *num_stack = NULL;
- //   struct char_stack *op_stack = NULL;
+    struct char_stack *op_stack = NULL;
     int num = 0;
-  //  char op;
+    if
     while (*input_str != '\0') {
         if (*input_str >= '0' && *input_str <= '9') {
-            shift = extract_num(input_str, &num);
-            if (num_stack == NULL) {
-                num_stack = int_init(num);
-            } else {
-                int_push(&num_stack, num);
-            }
+            extract_num(input_str, &num, &shift);
+            add_to_polish(polish, input_str, shift);
+            polish = polish + shift;
             input_str = input_str + shift;
-        } /*else {
+        } else {
+            // 1. получаем следующий символ из входной строки
+            // 2. проверяем, что это:
+            // +, -, 
             shift = extract_op(char *str, char *op);
             if (op_stack == NULL) {
                 op_stack = char_init(op);
@@ -64,7 +70,8 @@ int parse(char *input_str) {
                 char_push(&char_stack, op);
             }
             input_str = input_str + shift;
-        } */
+            polish++;
+        }
     }
     return 1;
 }
