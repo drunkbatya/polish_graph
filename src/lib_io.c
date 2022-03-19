@@ -1,3 +1,5 @@
+// Copyright [2022] <griselle, laynadre>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +16,7 @@ int input(char **ptr) {
     if (*ptr == NULL)
         return (0);
     while (1) {
-        char c;
+        int c;
 
         c = getchar();
         if (c == '\n' || c == EOF) {
@@ -35,7 +37,3 @@ int input(char **ptr) {
         size++;
     }
 }
-
-void dbg_output(char *str) {
-    while (str != '\0') {
-        printf("")
