@@ -4,6 +4,32 @@
 #include "lib_stack.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+int parse_unary_minus(char **str) {
+    char *temp;
+
+    if (**str == '-') {
+        temp = malloc(strlen(*str) + 2);
+        if (temp == NULL)
+            return (0);
+        strcpy(temp, "0");
+        strcat(temp, *str);
+        free(*str);
+        *str = temp;
+    }
+    while (strstr(*str, "(-")) {
+        temp = malloc(strlen(*str) + 2);
+        if (temp == NULL)
+            return (0);
+        strncpy(temp, *str, (strstr(*str, "(-") - *str));
+        strcat(temp, "(0-");
+        strcat(temp, (strstr(*str, "(-") + 2));
+        free(*str);
+        *str = temp;
+    }
+    return (1);
+}
 
 void add_to_polish(char *polish, char *input_str, int shift) {
     for (int i = 0; i < shift; i++) {

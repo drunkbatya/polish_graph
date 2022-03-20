@@ -29,7 +29,7 @@ int main(void) {
         printf("graph.c: memmory allocation error!\n");
         return (make_me_free(str, matrix, temp, op_stack, 1));
     }
-    if (!parse(str, polish, &op_stack)) {
+    if ((!parse_unary_minus(&str)) || (!parse(str, polish, &op_stack))) {
         printf("graph.c: parse error!\n");
         return (make_me_free(str, matrix, temp, op_stack, 1));
     }

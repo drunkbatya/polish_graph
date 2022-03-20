@@ -33,11 +33,6 @@ int **create_matrix(int size_x, int size_y) {
     return (arr);
 }
 
-float dummy(float x) {
-    // return (pow(x, 2));
-    return (sin(cos(2 * x)));
-}
-
 float convert_x_to_unreal(int x) {
     return (x * ((4 * M_PI) / (SCREEN_WIDTH - 1)));
 }
@@ -52,9 +47,7 @@ void feel_matrix(int **matrix, int size_x, int size_y, char *str) {
     count_y = 0;
     while (count_y < size_y) {
         int x;
-        // str++;
-        // x is y, y is x, cake is a lie, sorry for this..
-        // x = convert_y_to_real(dummy(convert_x_to_unreal(count_y)));
+
         x = convert_y_to_real(notation_result(str, convert_x_to_unreal(count_y)));
         if (x < size_x && x >= 0)
             matrix[x][count_y] = 1;
@@ -148,7 +141,7 @@ float notation_result(char *str, float x) {
     if (num_stack != NULL) {
         n_display_stack(num_stack);
     }
-    y = n_pop(&num_stack); 
+    y = n_pop(&num_stack);
     n_destroy(&num_stack);
     return y;
 }
