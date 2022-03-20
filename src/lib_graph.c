@@ -78,8 +78,9 @@ int parse(char *input_str, char *polish, stack **op_stack) {
         }
         if (extract_op(input_str, &op, &shift) == 0)
             return (0);
-        if (!op_routing(&polish, &shift, op_stack, op))
+        if (!op_routing(&polish, &shift, op_stack, op)) {
             return (0);
+        }
         if (*(input_str + shift) != '\0')
             input_str = input_str + shift;
         else

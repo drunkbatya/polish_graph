@@ -163,5 +163,5 @@ int op_routing(char **polish, int *shift, stack **op_stack, char op) {
         push(op_stack, last);
     else
         *op_stack = init(last);
-    return (0);
+    return (1);
 }
