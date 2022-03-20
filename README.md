@@ -2,7 +2,7 @@
 Creating graphs of functions in terminal.
 
 It's a little project written in pure C by [@Koterin](https://github.com/Koterin) and [@drunkbatya](https://github.com/drunkbatya/).
-It's program creates graphs of functions defined by arbitrary expressions in terminal. To calculate the values of expressions, uses Dijkstra's algorithm for translating expressions into Polish notation.
+The program creates graphs of functions defined by arbitrary expressions in terminal. To calculate the values it uses Dijkstra's algorithm for translating expressions into Polish notation.
 
 Example:
 ```bash
