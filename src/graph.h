@@ -1,4 +1,4 @@
-// Copyright [2022] <griselle, laynadre, ronnyfre>
+// Copyright [2022] <griselle, laynadre>
 
 #ifndef SRC_GRAPH_H_
 #define SRC_GRAPH_H_

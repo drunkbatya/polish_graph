@@ -1,4 +1,4 @@
-// Copyright [2022] <griselle, laynadre, ronnyfre>
+// Copyright [2022] <griselle, laynadre>
 
 #include <stdio.h>
 #include <stdlib.h>

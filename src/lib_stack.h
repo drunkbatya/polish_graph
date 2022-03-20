@@ -1,17 +1,17 @@
-// Copyright [2022] <griselle>
+// Copyright [2022] <griselle, laynadre>
 
 #ifndef SRC_LIB_STACK_H_
 #define SRC_LIB_STACK_H_
 
-struct stack {
+typedef struct stack_t {
     char sym;
-    struct stack *next;
-};
+    struct stack_t *next;
+} stack;
 
-struct stack *init(char sym);
-void push(struct stack **last, char sym);
-char pop(struct stack **last);
-void destroy(struct stack **last);
-void display_stack(struct stack *stack);
+stack *init(char sym);
+void push(stack **last, char sym);
+char pop(stack **last);
+void destroy(stack **last);
+void display_stack(stack *stack);
 
 #endif  // SRC_LIB_STACK_H_
