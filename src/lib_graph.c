@@ -67,8 +67,6 @@ int parse(char *input_str, char *polish, stack **op_stack) {
 
     if (!input_str || *input_str == '\0')
         return (0);
-    if (*input_str == '-')
-        add_unary_minus_to_polish(&input_str, &polish);
     while (*input_str != '\0') {
         printf("\n now symb is %c", *input_str);
         if (*input_str == 'x') {

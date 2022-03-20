@@ -52,6 +52,11 @@ int extract_num(char *str, int *num) {
 }
 
 int extract_op(char *str, char *op, int *shift) {
+    if (!(*shift) && (*op == '-')) {
+        *op = '~';
+        *shift = 1;
+        return (1);
+    }
     *shift = 2;
     if (!strncmp(str, "ln", *shift)) {
         *op = 'l';
@@ -86,7 +91,7 @@ int extract_op(char *str, char *op, int *shift) {
             return (1);
         }
     }
-    if (strchr("+-/*()", *str)) {
+    if (strchr("^+-/*()", *str)) {
         *op = *str;
         return (1);
     }
