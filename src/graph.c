@@ -34,10 +34,11 @@ int main(void) {
         return (make_me_free(str, matrix, temp, op_stack, 1));
     }
 
-    printf("\nOUPUT %s\n", temp);
+    printf("\nInPUT: %s\n", str);
+    printf("\nPOLISH: %s\n", temp);
 
     printf("DBG: %s\n", str);
-    feel_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
+    feel_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH, temp);
     print_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
 
     return (make_me_free(str, matrix, temp, op_stack, 0));

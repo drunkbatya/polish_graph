@@ -133,8 +133,6 @@ float notation_result(char *str, float x) {
             } else {
                 n_push(&num_stack, x);
             }
-
-            printf("x");
             str++;
         } else {  // Binary operators
             if (strchr("^+-/*", *str)) {
@@ -142,7 +140,7 @@ float notation_result(char *str, float x) {
                 a = n_pop(&num_stack);
                 n_push(&num_stack, calc(a, b, *str));
             }
-            y++;
+
             str++;
         }
     }
