@@ -105,9 +105,8 @@ float notation_result(char *str, float x) {
     num_stack = NULL;
 
     while (*str != '\0') {
-        if (*str >= '0' && *str <= '9') {  // Numbers
+        if (*str >= '0' && *str <= '9') {
             shift = extract_num(str, &num);
-//            printf("\n num is %d", num);
 
             if (num_stack == NULL) {
                 num_stack = n_init(num);
@@ -117,17 +116,17 @@ float notation_result(char *str, float x) {
 
             num = 0;
             str = str + shift;
-        } else if (*str == ' ') {  // Space
+        } else if (*str == ' ') {
             str++;
             continue;
-        } else if (*str == 'x') {  // X
+        } else if (*str == 'x') {
             if (num_stack == NULL) {
                 num_stack = n_init(x);
             } else {
                 n_push(&num_stack, x);
             }
             str++;
-        } else {  // Binary operators
+        } else {
             if (strchr("^+-/*", *str)) {
                 b = n_pop(&num_stack);
                 a = n_pop(&num_stack);
@@ -143,7 +142,7 @@ float notation_result(char *str, float x) {
     }
     y = n_pop(&num_stack);
     n_destroy(&num_stack);
-    return y;
+    return (y);
 }
 
 float calc(float a, float b, char op) {
