@@ -64,6 +64,7 @@ int parse(char *input_str, char *polish, stack **op_stack) {
     int shift = 0;
     char op;
     int num = 0;
+    char *start = polish;
 
     if (!input_str || *input_str == '\0')
         return (0);
@@ -83,6 +84,8 @@ int parse(char *input_str, char *polish, stack **op_stack) {
         }
         if (extract_op(input_str, &op, &shift) == 0)
             return (0);
+        // polish OR stack
+        
         add_op_to_polish(&polish, &shift, op_stack, &op);
         if (*(input_str + shift))
             input_str = input_str + shift;
@@ -93,5 +96,34 @@ int parse(char *input_str, char *polish, stack **op_stack) {
     if (*op_stack != NULL) {
         display_stack(*op_stack);
     }
+    printf("\n real out %s", start);
     return (1);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
