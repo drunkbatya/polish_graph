@@ -94,9 +94,7 @@ int extract_op(char *str, char *op, int *shift) {
 
 void add_x_to_polish(char **input_str, char **polish) {
     add_to_polish(*polish, *input_str, 1);
-    ++*polish;
-    **polish = ' ';
-    ++*polish;
+    *polish = *polish + 2;
     ++*input_str;
 }
 

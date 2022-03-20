@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 int make_me_free(char *str, int **matrix, char *polish, stack *op_stack, int return_code) {
     if (str != NULL)
@@ -45,15 +46,16 @@ int convert_y_to_real(float y) {
     return (round(y * ((SCREEN_HEIGHT - 1) / 2) / 1) + (SCREEN_HEIGHT / 2));
 }
 
-void feel_matrix(int **matrix, int size_x, int size_y) {
+void feel_matrix(int **matrix, int size_x, int size_y, char *str) {
     int count_y;
 
     count_y = 0;
     while (count_y < size_y) {
         int x;
-
+        // str++;
         // x is y, y is x, cake is a lie, sorry for this..
-        x = convert_y_to_real(dummy(convert_x_to_unreal(count_y)));
+        // x = convert_y_to_real(dummy(convert_x_to_unreal(count_y)));
+        x = convert_y_to_real(notation_result(str, convert_x_to_unreal(count_y)));
         if (x < size_x && x >= 0)
             matrix[x][count_y] = 1;
         count_y++;
@@ -68,35 +70,26 @@ int parse(char *input_str, char *polish, stack **op_stack) {
     if (!input_str || *input_str == '\0')
         return (0);
     while (*input_str != '\0') {
-        printf("parse: loop_start input_str: %c\n", *input_str);
         if (*input_str == 'x') {
-            printf("parse: loop if x input_str: %c\n", *input_str);
             add_x_to_polish(&input_str, &polish);
-            printf("parse: loop after add_x_to_p input_str: %c\n", *input_str);
             continue;
         }
         if (*input_str >= '0' && *input_str <= '9') {
-            printf("parse: loop if num input_str: %c\n", *input_str);
             add_num_to_polish(&input_str, &polish, &num, &shift);
-            printf("parse: loop after add_num_to_p input_str: %c\n", *input_str);
             if (*(input_str + shift) == '\0') {
                 break;
             }
             input_str = input_str + shift;
-            printf("parse: loop after add_num_to_p shift input_str: %c\n", *input_str);
             continue;
         }
         if (extract_op(input_str, &op, &shift) == 0) {
-            printf("parse: loop exctract_op error: %c\n", *input_str);
             return (0);
         }
         // polish OR stack
        // op_routing(&polish, &shift, op_stack, &op);
         add_op_to_polish(&polish, &shift, op_stack, &op);
-        printf("parse: loop after add_op_to_polish: %c\n", *input_str);
         if (*(input_str + shift) != '\0') {
             input_str = input_str + shift;
-            printf("parse: loop after final +shift: %c\n", *input_str);
         } else
             break;
     }
@@ -106,6 +99,76 @@ int parse(char *input_str, char *polish, stack **op_stack) {
     }
     return (1);
 }
+
+float notation_result(char *str, float x) {
+    int num = 0;
+    int shift = 0;
+    float y = 0;
+    float a = 0;
+    float b = 0;
+
+    n_stack *num_stack;
+    num_stack = NULL;
+
+    while (*str != '\0') {
+        if (*str >= '0' && *str <= '9') {  // Numbers
+            shift = extract_num(str, &num);
+            printf("\n num is %d", num);
+
+            if (num_stack == NULL) {
+                num_stack = n_init(num);
+            } else {
+                n_push(&num_stack, num);
+            }
+
+            num = 0;
+            str = str + shift;
+        } else if (*str == ' ') {  // Space
+            str++;
+            continue;
+        } else if (*str == 'x') {  // X
+            if (num_stack == NULL) {
+                num_stack = n_init(x);
+            } else {
+                n_push(&num_stack, x);
+            }
+
+            printf("x");
+            str++;
+        } else {  // Binary operators
+            if (strchr("^+-/*", *str)) {
+                b = n_pop(&num_stack);
+                a = n_pop(&num_stack);
+                n_push(&num_stack, calc(a, b, *str));
+            }
+            y++;
+            str++;
+        }
+    }
+    printf("\n stack: ");
+    if (num_stack != NULL) {
+        n_display_stack(num_stack);
+    }
+    y = n_pop(&num_stack); 
+    n_destroy(&num_stack);
+    return y;
+}
+
+float calc(float a, float b, char op) {
+    if (op == '-')
+        return (a - b);
+    if (op == '+')
+        return (a + b);
+    if (op == '*')
+        return (a * b);
+    if (op == '/')
+        return (a / b);
+    if (op == '^')
+        return (pow(a, b));
+    return (0);
+}
+
+
 
 
 
