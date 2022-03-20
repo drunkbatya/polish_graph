@@ -28,13 +28,6 @@ int priority(char op) {
     return (0);
 }
 
-/*
-void add_to_stack(char op, char *polish, stack *root) {
-   if (priority(op) > 1)
-       printf("%c", *polish);
-}
-*/
-
 int extract_num(char *str, int *num) {
     int shift;
 
@@ -42,18 +35,18 @@ int extract_num(char *str, int *num) {
     while (*str != '\0') {
         if (*str < '0' || *str > '9')
             break;
-      //  *num = *num * 10 + (*str - '0');
+        *num = *num * 10 + (*str - '0');
         str++;
         shift++;
     }
-    printf("\nnum is %d", *num);
-  //  *num = 0;
     return (shift);
 }
 
 int extract_op(char *str, char *op, int *shift) {
+    printf("\nin the exctract_op %c\n", *str);
     if ((!*shift) && (*str == '-')) {  // Unary minus processing
         *op = '~';
+        printf("extract_op: *op: %c\n", *op);
         *shift = 1;
         return (1);
     }
@@ -88,10 +81,11 @@ int extract_op(char *str, char *op, int *shift) {
     if (*str == '-') {
         if (*(str - 1) == '(') {
             *op = '~';
+            printf("extract_op ( : *op: %c\n", *op);
             return (1);
         }
     }
-    if (strchr("^+-/*()", *str)) {
+    if (strchr(")^+-/*(", *str)) {
         *op = *str;
         return (1);
     }
@@ -114,10 +108,53 @@ void add_num_to_polish(char **input_str, char **polish, int *num, int *shift) {
 
 void add_op_to_polish(char **polish, int *shift, stack **op_stack, char *op) {
     **polish = *op;
-    *(*polish + 1)= ' ';i  // TODO(griselle): chars after sin/lb/cos... don't go into polish (ex.: ln(x) = l)
+    *(*polish + 1)= ' ';  // TODO(griselle): chars after sin/lb/cos... don't go into polish (ex.: ln(x) = l)
     *polish = *polish + *shift + 1;
     if (*op_stack == NULL)
         *op_stack = init(*op);
     else
         push(op_stack, *op);
 }
+
+void op_routing(char **polish, int *shift, stack **op_stack, char *op) {
+ /*   if (*op_stack == NULL) {
+        *op_stack = init(*op);
+    } else {
+    if (*op_stack != NULL) {
+        if (priority(*op) > priority((*op_stack)->sym)) {
+            printf("\n priot is %c > %c", *op, (*op_stack)->sym);
+        }
+    } */
+    add_op_to_polish(polish, shift, op_stack, op);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

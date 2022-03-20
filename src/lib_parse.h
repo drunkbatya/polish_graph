@@ -12,4 +12,5 @@ int extract_op(char *str, char *op, int *shift);
 void add_x_to_polish(char **input_str, char **polish);
 void add_num_to_polish(char **input_str, char **polish, int *num, int *shift);
 void add_op_to_polish(char **polish, int *shift, stack **op_stack, char *op);
+void op_routing(char **polish, int *shift, stack **op_stack, char *op);
 #endif  // SRC_LIB_PARSE_H_

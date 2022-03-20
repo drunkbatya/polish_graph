@@ -24,20 +24,21 @@ int main(void) {
     }
     matrix = create_matrix(SCREEN_HEIGHT, SCREEN_WIDTH);
     polish = calloc((strlen(str) + 1), sizeof(char));
+    char *temp = polish;
     if (matrix == NULL || polish == NULL) {
         printf("graph.c: memmory allocation error!\n");
-        return (make_me_free(str, matrix, polish, op_stack, 1));
+        return (make_me_free(str, matrix, temp, op_stack, 1));
     }
     if (!parse(str, polish, &op_stack)) {
         printf("graph.c: parse error!\n");
-        return (make_me_free(str, matrix, polish, op_stack, 1));
+        return (make_me_free(str, matrix, temp, op_stack, 1));
     }
 
-    printf("\nOUPUT %s\n", polish);
+    printf("\nOUPUT %s\n", temp);
 
     printf("DBG: %s\n", str);
     feel_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
     print_matrix(matrix, SCREEN_HEIGHT, SCREEN_WIDTH);
 
-    return (make_me_free(str, matrix, polish, op_stack, 0));
+    return (make_me_free(str, matrix, temp, op_stack, 0));
 }
