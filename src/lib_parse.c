@@ -113,7 +113,6 @@ void add_num_to_polish(char **input_str, char **polish, int *num, int *shift) {
 }
 
 void add_op_to_polish(char **polish, int *shift, stack **op_stack, char *op) {
-    printf("add_op: %c", *op);
     **polish = *op;
     *(*polish + 1)= ' ';
     *polish = *polish + *shift + 1;
@@ -121,12 +120,4 @@ void add_op_to_polish(char **polish, int *shift, stack **op_stack, char *op) {
         *op_stack = init(*op);
     else
         push(op_stack, *op);
-}
-
-void add_unary_minus_to_polish(char **input_str, char **polish) {
-    **polish = '0';
-    ++*polish;
-    **polish = ' ';
-    ++*polish;
-    ++*input_str;
 }
