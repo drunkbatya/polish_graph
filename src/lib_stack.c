@@ -1,13 +1,13 @@
-// Copyright [2022] <griselle>
+// Copyright [2022] <griselle, laynadre>
 
 #include "lib_stack.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-struct stack *init(char sym) {
-    struct stack *ret;
+stack *init(char sym) {
+    stack *ret;
 
-    ret = (struct stack *)malloc(sizeof(struct stack));
+    ret = (stack *)malloc(sizeof(stack));
     if (ret == NULL) {
         printf("stack.c: Memmory allocation error!.. ");
         return (ret);
@@ -17,17 +17,17 @@ struct stack *init(char sym) {
     return (ret);
 }
 
-void push(struct stack **last, char sym) {
-    struct stack *ret;
+void push(stack **last, char sym) {
+    stack *ret;
 
-    ret = (struct stack *)malloc(sizeof(struct stack));
+    ret = (stack *)malloc(sizeof(stack));
     ret->next = *last;
     ret->sym = sym;
     *last = ret;
 }
 
-char pop(struct stack **last) {
-    struct stack *ptr;
+char pop(stack **last) {
+    stack *ptr;
     char sym;
 
     if (*last == NULL) {
@@ -41,9 +41,9 @@ char pop(struct stack **last) {
     return (sym);
 }
 
-void destroy(struct stack **last) {
-    struct stack *ret;
-    struct stack *temp;
+void destroy(stack **last) {
+    stack *ret;
+    stack *temp;
 
     ret = *last;
     while (ret) {
@@ -55,4 +55,14 @@ void destroy(struct stack **last) {
         free(ret);
         ret = temp;
     }
+}
+
+void display_stack(stack *last) {
+    stack *temp;
+    temp = last;
+    while (temp->next != NULL) {
+        printf("%c", temp->sym);
+        temp = temp->next;
+    }
+    printf("%c", temp->sym);
 }

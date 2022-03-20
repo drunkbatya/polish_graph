@@ -1,11 +1,23 @@
-// Copyright [2022] <griselle, laynadre, ronnyfre>
+// Copyright [2022] <griselle, laynadre>
 
 #include "lib_stack.h"
 #include "lib_graph.h"
 #include "graph.h"
-#include <stdlib.h>
+#include "lib_parse.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
+
+int make_me_free(char *str, int **matrix, char *polish, stack *op_stack, int return_code) {
+    if (str != NULL)
+        free(str);
+    if (matrix != NULL)
+        free(matrix);
+    if (polish != NULL)
+        free(polish);
+    destroy(&op_stack);
+    return (return_code);
+}
 
 int **create_matrix(int size_x, int size_y) {
     int **arr;
@@ -18,104 +30,6 @@ int **create_matrix(int size_x, int size_y) {
     for (int count = 0; count < size_x; count++)
         *(arr + count) = ptr + size_y * count;
     return (arr);
-}
-
-void add_to_polish(char *polish, char *input_str, int shift) {
-    while (shift != 0) {
-        *polish = *input_str;
-        polish++;
-        input_str++;
-        shift--;
-    }
-}
-
-void extract_num(char *str, int *num, int *shift) {
-    *num = (int)(*str - '0');
-    str++;
-    *shift = 1;
-
-    while (*str != '\0') {
-        // If next is num too
-        if (*str >= '0' && *str <= '9') {
-            *num = *num * 10 + (int)(*str - '0');
-        }
-        str++;
-        *shift++;
-        if (*str >= '0' && *str <= '9') {
-            break;
-        }
-    }
-    printf("\nnum is %d", *num);
-}
-
-int extract_op(char *str, char *op, int *shift) {
-    *shift = 2;
-    if (!strncmp(str, "ln", *shift)) {
-        *op = 'l';
-        return (1);
-    }
-    *shift = 3;
-    if (!strncmp(str, "sin", *shift)) {
-        *op = 's';
-        return (1);
-    }
-    if (!strncmp(str, "cos", *shift)) {
-        *op = 'c';
-        return (1);
-    }
-    if (!strncmp(str, "tan", *shift)) {
-        *op = 't';
-        return (1);
-    }
-    if (!strncmp(str, "ctg", *shift)) {
-        *op = 'g';
-        return (1);
-    }
-    *shift = 4;
-    if (!strncmp(str, "sqrt", *shift)) {
-        *op = 'q';
-        return (1);
-    }
-    *shift = 1;
-    if (*str == '-') {
-        if (*(str - 1) == '(') {
-            *op = '~';
-            return (1);
-        }
-    }
-    if (strchr("+-/*()", *str)) {
-        *op = *str;
-        return (1);
-    }
-    return (0);
-}
-
-int parse(char *input_str, char *polish) {
-    int shift = 0;
-    struct char_stack *op_stack = NULL;
-    int num = 0;
-    if
-    while (*input_str != '\0') {
-        if (*input_str >= '0' && *input_str <= '9') {
-            extract_num(input_str, &num, &shift);
-            add_to_polish(polish, input_str, shift);
-            polish = polish + shift;
-            input_str = input_str + shift;
-        } else {
-            // 1. получаем следующий символ из входной строки
-            // 2. проверяем, что это:
-            // +, -, 
-            shift = extract_op(char *str, char *op);
-            if (op_stack == NULL) {
-                op_stack = char_init(op);
-            } else {
-                char_push(&char_stack, op);
-            }
-            input_str = input_str + shift;
-            polish++;
-        }
-    }
-    return 1;
 }
 
 float dummy(float x) {
@@ -144,4 +58,39 @@ void feel_matrix(int **matrix, int size_x, int size_y) {
             matrix[x][count_y] = 1;
         count_y++;
     }
+}
+
+int parse(char *input_str, char *polish, stack **op_stack) {
+    int shift = 0;
+    char op;
+    int num = 0;
+
+    if (!input_str || *input_str == '\0')
+        return (0);
+    if (*input_str == '-')
+        add_unary_minus_to_polish(&input_str, &polish);
+    while (*input_str != '\0') {
+        printf("\n now symb is %c", *input_str);
+        if (*input_str == 'x') {
+            add_x_to_polish(&input_str, &polish);
+            continue;
+        }
+        if (*input_str >= '0' && *input_str <= '9') {
+            add_num_to_polish(&input_str, &polish, &num, &shift);
+            if (*(input_str + shift) == '\0')
+                break;
+            input_str = input_str + shift;
+            continue;
+        }
+        if (extract_op(input_str, &op, &shift) == 0)
+            return (0);
+        add_op_to_polish(&input_str, &polish, &shift, op_stack, &op);
+        if (*(input_str + shift))
+            input_str = input_str + shift;
+        else
+            break;
+    }
+    printf("\n stack: ");
+    display_stack(*op_stack);
+    return (1);
 }
