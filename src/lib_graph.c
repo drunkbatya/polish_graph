@@ -63,40 +63,41 @@ void feel_matrix(int **matrix, int size_x, int size_y, char *str) {
 }
 
 int parse(char *input_str, char *polish, stack **op_stack) {
+    char *temp_polish;
     int shift = 0;
     char op;
     int num = 0;
 
+    temp_polish = polish;
     if (!input_str || *input_str == '\0')
         return (0);
     while (*input_str != '\0') {
         if (*input_str == 'x') {
-            add_x_to_polish(&input_str, &polish);
+            add_x_to_polish(&input_str, &polish, &shift);
             continue;
         }
         if (*input_str >= '0' && *input_str <= '9') {
             add_num_to_polish(&input_str, &polish, &num, &shift);
-            if (*(input_str + shift) == '\0') {
+            if (*(input_str + shift) == '\0')
                 break;
-            }
             input_str = input_str + shift;
             continue;
         }
-        if (extract_op(input_str, &op, &shift) == 0) {
+        if (extract_op(input_str, &op, &shift) == 0)
             return (0);
-        }
-        // polish OR stack
-       // op_routing(&polish, &shift, op_stack, &op);
-        add_op_to_polish(&polish, &shift, op_stack, &op);
-        if (*(input_str + shift) != '\0') {
+        // add_op_to_polish(&polish, &shift, op_stack, &op);
+        if (!op_routing(&polish, &shift, op_stack, op))
+            return (0);
+        if (*(input_str + shift) != '\0')
             input_str = input_str + shift;
-        } else
+        else
             break;
     }
-    printf("\n stack: ");
     if (*op_stack != NULL) {
         display_stack(*op_stack);
     }
+    while (*op_stack)
+        add_op_to_polish(&polish, &shift, pop(op_stack));
     return (1);
 }
 
