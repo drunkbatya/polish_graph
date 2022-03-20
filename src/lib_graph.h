@@ -11,5 +11,6 @@ void feel_matrix(int **matrix, int size_x, int size_y, char *str);
 int parse(char *input_str, char *polish, stack **op_stack);
 float notation_result(char *str, float x);
 float calc(float a, float b, char op);
+float unary_calc(float a, char op);
 
 #endif  // SRC_LIB_GRAPH_H_

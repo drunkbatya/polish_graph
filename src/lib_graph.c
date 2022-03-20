@@ -114,7 +114,7 @@ float notation_result(char *str, float x) {
     while (*str != '\0') {
         if (*str >= '0' && *str <= '9') {  // Numbers
             shift = extract_num(str, &num);
-            printf("\n num is %d", num);
+//            printf("\n num is %d", num);
 
             if (num_stack == NULL) {
                 num_stack = n_init(num);
@@ -140,14 +140,18 @@ float notation_result(char *str, float x) {
                 a = n_pop(&num_stack);
                 n_push(&num_stack, calc(a, b, *str));
             }
+            if (strchr("scltgq", *str)) {
+                a = n_pop(&num_stack);
+                n_push(&num_stack, unary_calc(a, *str));
+            }
 
             str++;
         }
     }
-    printf("\n stack: ");
-    if (num_stack != NULL) {
-        n_display_stack(num_stack);
-    }
+ //   printf("\n stack: ");
+ //   if (num_stack != NULL) {
+ //       n_display_stack(num_stack);
+ //   }
     y = n_pop(&num_stack); 
     n_destroy(&num_stack);
     return y;
@@ -167,6 +171,21 @@ float calc(float a, float b, char op) {
     return (0);
 }
 
+float unary_calc(float a, char op) {
+    if (op == 's')
+        return (sin(a));
+    if (op == 'c')
+        return (cos(a));
+    if (op == 't')
+        return (tan(a));
+    if (op == 'g')
+        return (1/tan(a));
+    if (op == 'l')
+        return (log(a));
+    if (op == 'q')
+        return (sqrt(a));
+    return (0);
+}
 
 
 
