@@ -61,49 +61,41 @@ void feel_matrix(int **matrix, int size_x, int size_y) {
 }
 
 int parse(char *input_str, char *polish, stack **op_stack) {
+    char *temp_polish;
     int shift = 0;
     char op;
     int num = 0;
 
+    temp_polish = polish;
     if (!input_str || *input_str == '\0')
         return (0);
     while (*input_str != '\0') {
-        printf("parse: loop_start input_str: %c\n", *input_str);
         if (*input_str == 'x') {
-            printf("parse: loop if x input_str: %c\n", *input_str);
-            add_x_to_polish(&input_str, &polish);
-            printf("parse: loop after add_x_to_p input_str: %c\n", *input_str);
+            add_x_to_polish(&input_str, &polish, &shift);
             continue;
         }
         if (*input_str >= '0' && *input_str <= '9') {
-            printf("parse: loop if num input_str: %c\n", *input_str);
             add_num_to_polish(&input_str, &polish, &num, &shift);
-            printf("parse: loop after add_num_to_p input_str: %c\n", *input_str);
-            if (*(input_str + shift) == '\0') {
+            if (*(input_str + shift) == '\0')
                 break;
-            }
             input_str = input_str + shift;
-            printf("parse: loop after add_num_to_p shift input_str: %c\n", *input_str);
             continue;
         }
-        if (extract_op(input_str, &op, &shift) == 0) {
-            printf("parse: loop exctract_op error: %c\n", *input_str);
+        if (extract_op(input_str, &op, &shift) == 0)
             return (0);
-        }
-        // polish OR stack
-       // op_routing(&polish, &shift, op_stack, &op);
-        add_op_to_polish(&polish, &shift, op_stack, &op);
-        printf("parse: loop after add_op_to_polish: %c\n", *input_str);
-        if (*(input_str + shift) != '\0') {
+        // add_op_to_polish(&polish, &shift, op_stack, &op);
+        if (!op_routing(&polish, &shift, op_stack, op))
+            return (0);
+        if (*(input_str + shift) != '\0')
             input_str = input_str + shift;
-            printf("parse: loop after final +shift: %c\n", *input_str);
-        } else
+        else
             break;
     }
-    printf("\n stack: ");
     if (*op_stack != NULL) {
         display_stack(*op_stack);
     }
+    while (*op_stack)
+        add_op_to_polish(&polish, &shift, pop(op_stack));
     return (1);
 }
 
