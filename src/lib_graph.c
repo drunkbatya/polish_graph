@@ -83,7 +83,7 @@ int parse(char *input_str, char *polish, stack **op_stack) {
         }
         if (extract_op(input_str, &op, &shift) == 0)
             return (0);
-        add_op_to_polish(&input_str, &polish, &shift, op_stack, &op);
+        add_op_to_polish(&polish, &shift, op_stack, &op);
         if (*(input_str + shift))
             input_str = input_str + shift;
         else

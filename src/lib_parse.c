@@ -52,7 +52,7 @@ int extract_num(char *str, int *num) {
 }
 
 int extract_op(char *str, char *op, int *shift) {
-    if (!(*shift) && (*op == '-')) {
+    if ((!*shift) && (*str == '-')) {  // Unary minus processing
         *op = '~';
         *shift = 1;
         return (1);
@@ -112,8 +112,10 @@ void add_num_to_polish(char **input_str, char **polish, int *num, int *shift) {
     *polish = *polish + *shift + 1;  // + 1 - for the added space
 }
 
-void add_op_to_polish(char **input_str, char **polish, int *shift, stack **op_stack, char *op) {
-    add_to_polish(*polish, *input_str, *shift);
+void add_op_to_polish(char **polish, int *shift, stack **op_stack, char *op) {
+    printf("add_op: %c", *op);
+    **polish = *op;
+    *(*polish + 1)= ' ';
     *polish = *polish + *shift + 1;
     if (*op_stack == NULL)
         *op_stack = init(*op);
