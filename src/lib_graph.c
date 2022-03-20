@@ -78,7 +78,6 @@ int parse(char *input_str, char *polish, stack **op_stack) {
         }
         if (extract_op(input_str, &op, &shift) == 0)
             return (0);
-        // add_op_to_polish(&polish, &shift, op_stack, &op);
         if (!op_routing(&polish, &shift, op_stack, op))
             return (0);
         if (*(input_str + shift) != '\0')
@@ -179,32 +178,3 @@ float unary_calc(float a, char op) {
         return (sqrt(a));
     return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
