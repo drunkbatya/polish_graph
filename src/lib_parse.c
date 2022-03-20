@@ -4,6 +4,32 @@
 #include "lib_stack.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+int parse_unary_minus(char **str) {
+    char *temp;
+
+    if (**str == '-') {
+        temp = malloc(strlen(*str) + 2);
+        if (temp == NULL)
+            return (0);
+        strcpy(temp, "0");
+        strcat(temp, *str);
+        free(*str);
+        *str = temp;
+    }
+    while (strstr(*str, "(-")) {
+        temp = malloc(strlen(*str) + 2);
+        if (temp == NULL)
+            return (0);
+        strncpy(temp, *str, (strstr(*str, "(-") - *str));
+        strcat(temp, "(0-");
+        strcat(temp, (strstr(*str, "(-") + 2));
+        free(*str);
+        *str = temp;
+    }
+    return (1);
+}
 
 void add_to_polish(char *polish, char *input_str, int shift) {
     for (int i = 0; i < shift; i++) {
@@ -15,25 +41,18 @@ void add_to_polish(char *polish, char *input_str, int shift) {
 }
 
 int priority(char op) {
-    if (strchr("+-", op))
+    if (strchr("(", op))
         return (0);
-    if (strchr("*/", op))
+    if (strchr("+-", op))
         return (1);
-    if (strchr("sctgl", op))
+    if (strchr("*/", op))
         return (2);
-    if (strchr("q^", op))
+    if (strchr("sctgl", op))
         return (3);
-    if (strchr("()", op))
+    if (strchr("q^", op))
         return (4);
     return (0);
 }
-
-/*
-void add_to_stack(char op, char *polish, stack *root) {
-   if (priority(op) > 1)
-       printf("%c", *polish);
-}
-*/
 
 int extract_num(char *str, int *num) {
     int shift;
@@ -46,8 +65,6 @@ int extract_num(char *str, int *num) {
         str++;
         shift++;
     }
-    printf("\nnum is %d", *num);
-    *num = 0;
     return (shift);
 }
 
@@ -80,25 +97,18 @@ int extract_op(char *str, char *op, int *shift) {
         return (1);
     }
     *shift = 1;
-    if (*str == '-') {
-        if (*(str - 1) == '(') {
-            *op = '~';
-            return (1);
-        }
-    }
-    if (strchr("+-/*()", *str)) {
+    if (strchr(")^+-/*(", *str)) {
         *op = *str;
         return (1);
     }
     return (0);
 }
 
-void add_x_to_polish(char **input_str, char **polish) {
+void add_x_to_polish(char **input_str, char **polish, int *shift) {
     add_to_polish(*polish, *input_str, 1);
-    ++*polish;
-    **polish = ' ';
-    ++*polish;
+    *polish = *polish + 2;
     ++*input_str;
+    *shift = 1;
 }
 
 void add_num_to_polish(char **input_str, char **polish, int *num, int *shift) {
@@ -107,19 +117,51 @@ void add_num_to_polish(char **input_str, char **polish, int *num, int *shift) {
     *polish = *polish + *shift + 1;  // + 1 - for the added space
 }
 
-void add_op_to_polish(char **input_str, char **polish, int *shift, stack **op_stack, char *op) {
-    add_to_polish(*polish, *input_str, *shift);
+void add_op_to_polish(char **polish, const int *shift, char op) {
+    **polish = op;
+    *(*polish + 1)= ' ';  // TODO(griselle): chars after sin/lb/cos... don't go into polish (ex.: ln(x) = l)
     *polish = *polish + *shift + 1;
-    if (*op_stack == NULL)
-        *op_stack = init(*op);
-    else
-        push(op_stack, *op);
 }
 
-void add_unary_minus_to_polish(char **input_str, char **polish) {
-    **polish = '0';
-    ++*polish;
-    **polish = ' ';
-    ++*polish;
-    ++*input_str;
+int op_routing(char **polish, int *shift, stack **op_stack, char op) {
+    char last;
+
+    if (*op_stack == NULL) {
+        *op_stack = init(op);
+        return (1);
+    }
+    if (op == '(') {
+        push(op_stack, op);
+        return (1);
+    }
+    if (op == ')') {
+        while (*op_stack) {
+            last = pop(op_stack);
+            if (last == '(') {
+                return (1);
+            }
+            add_op_to_polish(polish, shift, last);
+        }
+        return (0);
+    }
+    last = pop(op_stack);
+    if (priority(op) > priority(last)) {
+        push(op_stack, last);
+        push(op_stack, op);
+        return (1);
+    }
+    while (priority(op) <= priority(last)) {
+        add_op_to_polish(polish, shift, last);
+        if (*op_stack == NULL) {
+            *op_stack = init(op);
+            return (1);
+        } else {
+            last = pop(op_stack);
+        }
+    }
+    if (*op_stack)
+        push(op_stack, last);
+    else
+        *op_stack = init(last);
+    return (1);
 }
