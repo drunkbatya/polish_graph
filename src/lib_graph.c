@@ -77,8 +77,9 @@ int parse(char *input_str, char *polish, stack **op_stack) {
         }
         if (*input_str >= '0' && *input_str <= '9') {
             add_num_to_polish(&input_str, &polish, &num, &shift);
-            if (*(input_str + shift) == '\0')
+            if (*(input_str + shift) == '\0') {
                 break;
+            }
             input_str = input_str + shift;
             continue;
         }
@@ -91,6 +92,8 @@ int parse(char *input_str, char *polish, stack **op_stack) {
             break;
     }
     printf("\n stack: ");
-    display_stack(*op_stack);
+    if (*op_stack != NULL) {
+        display_stack(*op_stack);
+    }
     return (1);
 }

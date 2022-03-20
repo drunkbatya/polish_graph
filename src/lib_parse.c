@@ -42,12 +42,12 @@ int extract_num(char *str, int *num) {
     while (*str != '\0') {
         if (*str < '0' || *str > '9')
             break;
-        *num = *num * 10 + (*str - '0');
+      //  *num = *num * 10 + (*str - '0');
         str++;
         shift++;
     }
     printf("\nnum is %d", *num);
-    *num = 0;
+  //  *num = 0;
     return (shift);
 }
 
