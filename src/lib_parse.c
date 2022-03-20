@@ -117,7 +117,7 @@ void add_num_to_polish(char **input_str, char **polish, int *num, int *shift) {
     *polish = *polish + *shift + 1;  // + 1 - for the added space
 }
 
-void add_op_to_polish(char **polish, int *shift, char op) {
+void add_op_to_polish(char **polish, const int *shift, char op) {
     **polish = op;
     *(*polish + 1)= ' ';  // TODO(griselle): chars after sin/lb/cos... don't go into polish (ex.: ln(x) = l)
     *polish = *polish + *shift + 1;

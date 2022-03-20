@@ -141,11 +141,7 @@ float notation_result(char *str, float x) {
             str++;
         }
     }
- //   printf("\n stack: ");
- //   if (num_stack != NULL) {
- //       n_display_stack(num_stack);
- //   }
-    y = n_pop(&num_stack); 
+    y = n_pop(&num_stack);
     n_destroy(&num_stack);
     return y;
 }

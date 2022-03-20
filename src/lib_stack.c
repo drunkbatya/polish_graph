@@ -119,14 +119,3 @@ void n_destroy(n_stack **last) {
         ret = temp;
     }
 }
-
-void n_display_stack(n_stack *last) {
-    n_stack *temp;
-    temp = last;
-    while (temp->next != NULL) {
-        printf("%.2lf ", temp->item);
-        temp = temp->next;
-    }
-    printf("%.2lf", temp->item);
-}
-
